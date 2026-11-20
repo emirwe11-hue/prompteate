@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27%3E%3Crect width=%2724%27 height=%2724%27 rx=%276%27 fill=%27%232346d6%27/%3E%3Cpath d=%27M7 7l5 5-5 5M13 17h5%27 fill=%27none%27 stroke=%27white%27 stroke-width=%272.4%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27/%3E%3C/svg%3E">
+<meta property="og:title" content="Promptéate"><meta property="og:description" content="Aprende a escribir prompts para la IA con lecciones cortas, XP e insignias."><meta property="og:url" content="https://emirwe11-hue.github.io/prompteate/">
 <title>Promptéate</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="Guía interactiva para estudiantes: aprende a escribir prompts claros, específicos y estructurados para ChatGPT, Copilot, Gemini y Claude.">
@@ -83,7 +84,7 @@ code, .mono { font-family: var(--f-mono); font-size: 0.92em; }
 
 /* Marca de agua en las cuatro esquinas */
 .wm {
-  position: fixed; z-index: 4; pointer-events: none; user-select: none;
+  position: fixed; z-index: 35; pointer-events: none; user-select: none;
   display: flex; align-items: center; gap: 6px;
   font: 500 11px/1 var(--f-mono); letter-spacing: .04em; color: var(--ink); opacity: .34;
 }
@@ -297,8 +298,147 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
 .toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%) translateY(20px); background: var(--ink); color: var(--bg); padding: 10px 16px; border-radius: 8px; font-size: 14px; opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; z-index: 20; }
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
+/* Compartir */
+.share-row { display: flex; flex-wrap: wrap; gap: 10px; }
+.share-row svg { width: 18px; height: 18px; }
+
+/* Ruta de lecciones */
+.ruta-grid { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 40px; align-items: start; }
+.path { display: grid; gap: 28px; justify-items: center; padding-block: 8px; --k: 1; min-width: 0; }
+.unit {
+  width: min(100%, 520px); border-radius: 14px; padding: 16px 20px; display: grid; gap: 4px;
+  background: color-mix(in srgb, var(--u) 12%, var(--surface)); border: 1px solid color-mix(in srgb, var(--u) 35%, transparent);
+}
+.unit .eyebrow { color: var(--u); }
+.unit p { color: var(--muted); font-size: 15px; }
+.lessons { display: grid; gap: 22px; justify-items: center; padding-block: 4px; }
+.node-wrap { display: grid; justify-items: center; gap: 8px; transform: translateX(calc(var(--off) * var(--k) * 1px)); }
+.node {
+  width: 76px; height: 76px; border-radius: 50%; border: 0; cursor: pointer; display: grid; place-items: center;
+  background: var(--u); color: var(--surface); box-shadow: 0 0 0 6px color-mix(in srgb, var(--u) 22%, transparent);
+  transition: transform .15s;
+}
+.node:hover { transform: scale(1.06); }
+.node svg { width: 32px; height: 32px; }
+.node .num { font: 800 28px/1 var(--f-display); }
+.node.done { background: color-mix(in srgb, var(--u) 72%, var(--surface)); }
+.node.locked { background: var(--line); color: var(--muted); box-shadow: 0 0 0 6px color-mix(in srgb, var(--line) 45%, transparent); cursor: not-allowed; transform: none; }
+.node.current { animation: pulse 1.8s ease-in-out infinite; }
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 6px color-mix(in srgb, var(--u) 24%, transparent); }
+  50% { box-shadow: 0 0 0 13px color-mix(in srgb, var(--u) 12%, transparent); }
+}
+.node-label { text-align: center; font-size: 14.5px; font-weight: 600; max-width: 170px; line-height: 1.3; }
+.node-label small { display: block; font: 400 12px var(--f-mono); color: var(--muted); margin-top: 2px; }
+.start-tag { font: 500 12px var(--f-mono); text-transform: uppercase; letter-spacing: .08em; color: var(--u); }
+.stats { position: sticky; top: 84px; display: grid; gap: 16px; }
+.stat-card { display: grid; gap: 10px; }
+.lvl-name { font: 800 30px/1.05 var(--f-display); letter-spacing: -0.02em; }
+.xp-line { color: var(--muted); font-size: 14px; font-variant-numeric: tabular-nums; }
+.xp-line b { color: var(--ink); }
+.mini { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding-top: 10px; border-top: 1px solid var(--line); }
+.mini div { display: grid; }
+.mini b { font: 800 24px var(--f-display); font-variant-numeric: tabular-nums; }
+.mini span { font-size: 13px; color: var(--muted); }
+.badges-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 14px; }
+.badges { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.badges li { display: grid; grid-template-columns: 40px 1fr; gap: 12px; align-items: center; }
+.badge-ico { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: color-mix(in srgb, var(--accent) 16%, transparent); color: var(--accent); }
+.badge-ico svg { width: 22px; height: 22px; }
+.badges li.locked .badge-ico { background: var(--bg); color: var(--muted); }
+.badges li.locked b { color: var(--muted); }
+.badges b { display: block; font-size: 15px; }
+.badges li span span, .badges li > span:last-child span { font-size: 13px; color: var(--muted); }
+.row-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.btn.danger { background: var(--c-restr); border-color: var(--c-restr); color: var(--surface); }
+.confirm { display: grid; gap: 12px; padding: 18px; font-size: 15px; }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+
+/* Lección a pantalla completa */
+.lesson {
+  position: fixed; inset: 0; z-index: 30; background: var(--bg); display: grid; grid-template-rows: auto minmax(0, 1fr) auto;
+  padding-top: calc(env(safe-area-inset-top, 0px) + 30px); padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 30px);
+}
+body.in-lesson .wm.tl, body.in-lesson .wm.tr { top: calc(env(safe-area-inset-top, 0px) + 8px); }
+.ls-row {
+  max-width: 760px; width: 100%; margin-inline: auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.ls-top { display: flex; align-items: center; gap: 16px; padding-block: 0 8px; }
+.ls-close { width: 40px; height: 40px; flex: none; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font-size: 22px; line-height: 1; cursor: pointer; }
+.ls-bar { flex: 1; height: 12px; background: var(--line); border-radius: 99px; overflow: hidden; }
+.ls-bar i { display: block; height: 100%; width: 0; background: var(--good); border-radius: 99px; transition: width .35s; }
+.ls-count { font: 500 14px var(--f-mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+.ls-body { overflow-y: auto; }
+.ls-inner { display: grid; gap: 20px; align-content: start; padding-block: 24px 32px; }
+.ls-q { font: 700 clamp(22px, 3vw, 28px)/1.25 var(--f-display); letter-spacing: -0.01em; }
+.ls-q:focus { outline: none; }
+.ls-quote { font-family: var(--f-mono); font-size: 16px; padding: 14px 16px; border-radius: 10px; background: var(--surface); border: 1px solid var(--line); }
+.opts { display: grid; gap: 10px; }
+.opts.tf { grid-template-columns: 1fr 1fr; }
+.opt {
+  display: grid; grid-template-columns: 30px 1fr; gap: 12px; align-items: center; text-align: left;
+  font: 500 16px/1.45 var(--f-body); color: var(--ink); background: var(--surface);
+  border: 2px solid var(--line); border-radius: 12px; padding: 12px 14px; cursor: pointer;
+}
+.opt .key { width: 30px; height: 30px; border-radius: 8px; border: 1px solid var(--line); display: grid; place-items: center; font: 500 13px var(--f-mono); color: var(--muted); }
+.opt:hover:not(:disabled) { border-color: var(--muted); }
+.opt[aria-checked="true"] { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, var(--surface)); }
+.opt.right { border-color: var(--good); background: color-mix(in srgb, var(--good) 14%, var(--surface)); }
+.opt.wrong { border-color: var(--c-restr); background: color-mix(in srgb, var(--c-restr) 12%, var(--surface)); }
+.opt:disabled { cursor: default; opacity: 1; }
+.answer-zone { min-height: 110px; border-bottom: 2px dashed var(--line); display: flex; flex-wrap: wrap; gap: 10px; align-content: flex-start; padding-bottom: 16px; }
+.answer-zone:empty::before { content: attr(data-empty); color: var(--muted); font-size: 15px; }
+.answer-zone.right .tile { border-color: var(--good); }
+.answer-zone.wrong .tile { border-color: var(--c-restr); }
+.bank { display: flex; flex-wrap: wrap; gap: 10px; }
+.tile {
+  font: 500 15px/1.35 var(--f-body); color: var(--ink); background: var(--surface); text-align: left;
+  border: 2px solid var(--line); border-radius: 10px; padding: 10px 14px; cursor: pointer; max-width: 100%;
+}
+.tile:hover:not(:disabled) { border-color: var(--accent); }
+.tile:disabled { cursor: default; opacity: 1; }
+.ls-foot { border-top: 2px solid var(--line); background: var(--surface); }
+.ls-foot.ok { background: color-mix(in srgb, var(--good) 14%, var(--surface)); border-top-color: var(--good); }
+.ls-foot.bad { background: color-mix(in srgb, var(--c-restr) 11%, var(--surface)); border-top-color: var(--c-restr); }
+.ls-foot-in { display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: wrap; padding-block: 16px; }
+.ls-feedback { flex: 1 1 320px; min-width: 0; display: grid; gap: 4px; }
+.ls-feedback b { font: 800 20px var(--f-display); }
+.ls-foot.ok .ls-feedback b { color: var(--good); }
+.ls-foot.bad .ls-feedback b { color: var(--c-restr); }
+.ls-feedback span { font-size: 15px; }
+.ls-feedback .sol { font-family: var(--f-mono); font-size: 13.5px; }
+.btn.big { padding: 14px 28px; font-size: 16px; min-width: 190px; justify-content: center; margin-left: auto; }
+.result { justify-items: center; text-align: center; }
+.res-tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; width: 100%; max-width: 520px; }
+.res-tiles div { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px; display: grid; gap: 2px; }
+.res-tiles b { font: 800 28px var(--f-display); font-variant-numeric: tabular-nums; }
+.res-tiles span { font-size: 13px; color: var(--muted); }
+.levelup { padding: 12px 18px; border-radius: 12px; background: color-mix(in srgb, var(--accent) 14%, var(--surface)); font-weight: 600; }
+.new-badges { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.new-badges span { display: inline-flex; gap: 8px; align-items: center; padding: 8px 14px; border-radius: 99px; background: var(--surface); border: 1px solid var(--line); font-size: 14px; font-weight: 600; }
+.new-badges svg { width: 18px; height: 18px; color: var(--accent); }
+.note { color: var(--muted); font-size: 14px; }
+#confetti { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 40; pointer-events: none; }
+
+/* Imágenes */
+.legend { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.legend li { display: grid; grid-template-columns: 14px 1fr; gap: 12px; align-items: start; }
+.legend .dot { width: 14px; height: 14px; border-radius: 4px; margin-top: 5px; }
+.legend b { display: block; }
+.legend span { color: var(--muted); font-size: 15px; }
+
+/* Glosario */
+.gl-search { max-width: 420px; }
+.gl-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 40px; margin: 0; }
+.gl-item { padding: 14px 0; border-bottom: 1px solid var(--line); display: grid; gap: 4px; align-content: start; }
+.gl-item dt { font: 700 18px var(--f-display); }
+.gl-item dd { margin: 0; color: var(--muted); font-size: 15.5px; }
+.gl-empty { color: var(--muted); }
+
 @media (max-width: 900px) {
-  .hero .wrap, .anatomy, .builder, .evaluator, .final, .school { grid-template-columns: minmax(0, 1fr); }
+  .hero .wrap, .anatomy, .builder, .evaluator, .final, .school, .ruta-grid, .gl-list { grid-template-columns: minmax(0, 1fr); }
+  .stats { position: static; order: -1; }
   .tech-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
   .dos { grid-template-columns: minmax(0, 1fr); }
   .output { position: static; }
@@ -309,11 +449,18 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
   .tech-grid, .row2 { grid-template-columns: minmax(0, 1fr); }
   .pair { grid-template-columns: minmax(0, 1fr); }
   .pair > div + div { border-left: 0; border-top: 1px solid var(--line); }
-  nav.links { display: none; }
+  html { scroll-padding-top: 112px; }
+  header.top .wrap { flex-wrap: wrap; gap: 2px 16px; padding-block: 8px 4px; min-height: 0; }
+  nav.links { margin-left: 0; width: 100%; }
+  nav.links a { padding: 6px 8px; font-size: 14px; }
+  .path { --k: .55; }
+  .opts.tf { grid-template-columns: 1fr; }
+  .res-tiles b { font-size: 22px; }
+  .btn.big { width: 100%; }
   .paper, .compare .body { padding: 18px; }
   .wm { font-size: 9px; gap: 4px; }
   .wm svg { width: 14px; height: 14px; }
-  .wm.tl, .wm.tr { top: calc(env(safe-area-inset-top, 0px) + 66px); }
+  .wm.tl, .wm.tr { top: calc(env(safe-area-inset-top, 0px) + 104px); }
 }
 </style>
 </head>
@@ -329,13 +476,16 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
   <div class="wrap">
     <a class="brand" href="#inicio"><span>Prompté<i>ate</i></span> <span class="cursor" aria-hidden="true"></span></a>
     <nav class="links" aria-label="Secciones">
+      <a href="#ruta">Ruta</a>
       <a href="#anatomia">Anatomía</a>
       <a href="#tecnicas">Técnicas</a>
       <a href="#constructor">Constructor</a>
       <a href="#evaluador">Evaluador</a>
+      <a href="#imagenes">Imágenes</a>
       <a href="#herramientas">Herramientas</a>
       <a href="#errores">Errores</a>
       <a href="#escuela">En la escuela</a>
+      <a href="#glosario">Glosario</a>
       <a href="#practica">Práctica</a>
     </nav>
   </div>
@@ -350,8 +500,12 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
       <p class="lede">Un prompt es la instrucción que le das a la IA. Entre más clara, específica y ordenada sea, mejores respuestas vas a obtener y menos tiempo vas a perder corrigiendo. Aquí vas a conocer sus partes, las técnicas que mejor funcionan y vas a practicar con herramientas interactivas.</p>
       <p class="tools-line">Sirve para ChatGPT, Microsoft Copilot, Google Gemini y Claude.</p>
       <div class="cta-row">
-        <a class="btn primary" href="#anatomia">Empezar por la anatomía</a>
-        <a class="btn" href="#constructor">Ir al constructor</a>
+        <a class="btn primary" href="#ruta">Empezar la ruta</a>
+        <a class="btn" href="#anatomia">Ver la anatomía</a>
+      </div>
+      <div class="share-row">
+        <a class="btn small" href="https://wa.me/?text=Aprende%20a%20escribir%20prompts%20para%20la%20IA%20con%20Prompt%C3%A9ate%3A%20https%3A%2F%2Femirwe11-hue.github.io%2Fprompteate%2F" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11.5a8 8 0 0 1-11.8 7L4 20l1.5-4A8 8 0 1 1 20 11.5z"/></svg>Compartir por WhatsApp</a>
+        <button type="button" class="btn small" id="btnCopyLink">Copiar enlace</button>
       </div>
     </div>
 
@@ -368,6 +522,46 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
           <span class="score-pill" id="cmpPill"></span>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<section id="ruta">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Ruta Promptéate · aprende jugando</span>
+      <h2>Avanza lección por lección y gana XP</h2>
+      <p class="lede">Lecciones cortas de 5 preguntas. Cada lección que terminas desbloquea la siguiente, te da XP para subir de nivel y te acerca a nuevas insignias. Tu avance se guarda en este navegador.</p>
+    </div>
+    <div class="ruta-grid">
+      <div class="path" id="path"></div>
+      <aside class="stats" aria-label="Tu progreso">
+        <div class="paper stat-card">
+          <span class="eyebrow" id="lvlNum">Nivel 1</span>
+          <div class="lvl-name" id="lvlName">Aprendiz</div>
+          <div class="bar"><i id="lvlBar"></i></div>
+          <div class="xp-line"><b id="xpTotal">0</b> XP · <span id="xpNext"></span></div>
+          <div class="mini">
+            <div><b id="doneCount">0/11</b><span>lecciones</span></div>
+            <div><b id="perfectCount">0</b><span>sin errores</span></div>
+          </div>
+        </div>
+        <div class="paper">
+          <div class="badges-head"><h3>Insignias</h3><span class="out-meta" id="badgeCount">0/5</span></div>
+          <ul class="badges" id="badges"></ul>
+        </div>
+        <div class="row-actions">
+          <button type="button" class="btn small" id="btnMute" aria-pressed="true">Sonido: encendido</button>
+          <button type="button" class="btn small" id="btnReset">Reiniciar progreso</button>
+        </div>
+        <div class="paper confirm" id="resetConfirm" hidden>
+          <p>¿Borrar tu XP, tus lecciones y tus insignias? No se puede deshacer.</p>
+          <div class="row-actions">
+            <button type="button" class="btn small danger" id="resetYes">Sí, borrar</button>
+            <button type="button" class="btn small" id="resetNo">Cancelar</button>
+          </div>
+        </div>
+      </aside>
     </div>
   </div>
 </section>
@@ -551,10 +745,49 @@ Ahora: "Mitosis"</pre>
   </div>
 </section>
 
+<section id="imagenes">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">5 · Prompts para imágenes</span>
+      <h2>Cómo pedirle una imagen a la IA</h2>
+      <p class="lede">Para crear imágenes, la IA necesita que describas lo que debe verse. Estas seis piezas te ayudan a obtener una imagen útil para tu cartel, tu exposición o tu presentación.</p>
+    </div>
+    <div class="anatomy">
+      <div class="paper">
+        <div class="prompt-text"><span class="seg" data-part="rol">Un ajolote</span> <span class="seg" data-part="ctx">leyendo un libro en una biblioteca escolar,</span> <span class="seg" data-part="tarea">ilustración estilo acuarela,</span> <span class="seg" data-part="fmt">en primer plano y visto de frente,</span> <span class="seg" data-part="restr">con luz cálida de tarde y tonos rosas y verdes,</span> <span class="seg" data-part="ej">formato vertical para cartel, con espacio libre arriba para el título.</span></div>
+      </div>
+      <ul class="legend">
+        <li><span class="dot" style="background:var(--c-rol)"></span><span><b>Sujeto</b><span>Qué o quién aparece. Sé concreto: «un ajolote», no «un animal».</span></span></li>
+        <li><span class="dot" style="background:var(--c-ctx)"></span><span><b>Escena y acción</b><span>Dónde está y qué está haciendo.</span></span></li>
+        <li><span class="dot" style="background:var(--c-tarea)"></span><span><b>Estilo</b><span>Fotografía, ilustración, acuarela, caricatura, 3D, papel picado...</span></span></li>
+        <li><span class="dot" style="background:var(--c-fmt)"></span><span><b>Composición</b><span>Encuadre y ángulo: primer plano, vista aérea, desde abajo.</span></span></li>
+        <li><span class="dot" style="background:var(--c-restr)"></span><span><b>Luz y color</b><span>Hora del día, tipo de iluminación y colores principales.</span></span></li>
+        <li><span class="dot" style="background:var(--c-ej)"></span><span><b>Formato</b><span>Vertical, horizontal o cuadrado, y para qué lo vas a usar.</span></span></li>
+      </ul>
+    </div>
+    <div class="school">
+      <div class="paper swap">
+        <h3>La misma idea, dos prompts</h3>
+        <span class="lbl">Vago</span>
+        <div class="weak">Haz una imagen de reciclaje.</div>
+        <span class="lbl">Claro</span>
+        <div class="strong">Tres botes de basura de colores en el patio de una secundaria, con estudiantes separando residuos, ilustración plana, vista de frente, colores brillantes, formato vertical con espacio libre arriba para agregar un título.</div>
+      </div>
+      <ul class="rules">
+        <li><b>Describe lo que sí quieres ver</b><span>«Un cielo despejado» funciona mejor que «sin nubes».</span></li>
+        <li><b>Agrega el texto después</b><span>La IA a veces escribe mal las letras dentro de la imagen. Pon los títulos en Canva, PowerPoint o Google Slides.</span></li>
+        <li><b>Pide variaciones</b><span>«Dame otra versión con colores más claros» o «ahora en formato horizontal».</span></li>
+        <li><b>Respeta a los demás</b><span>No pidas imágenes de personas reales sin su permiso ni copies personajes o logotipos de marcas.</span></li>
+        <li><b>Usa la herramienta que tengas</b><span>Varias herramientas, como ChatGPT, Copilot y Gemini, pueden crear imágenes. Si la tuya no lo hace, pídele que te ayude a escribir el prompt para usarlo en otra.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
 <section id="herramientas">
   <div class="wrap">
     <div class="sec-head">
-      <span class="eyebrow">5 · Herramientas</span>
+      <span class="eyebrow">6 · Herramientas</span>
       <h2>Lo mismo en cuatro herramientas, con sus diferencias</h2>
       <p class="lede">Las bases de esta guía sirven en todas. Además, cada herramienta tiene funciones propias que conviene aprovechar. Esas funciones cambian seguido: revisa la documentación oficial si algo no aparece igual.</p>
     </div>
@@ -607,7 +840,7 @@ Ahora: "Mitosis"</pre>
 <section id="errores">
   <div class="wrap">
     <div class="sec-head">
-      <span class="eyebrow">6 · Errores comunes</span>
+      <span class="eyebrow">7 · Errores comunes</span>
       <h2>Lo que más empeora las respuestas</h2>
     </div>
     <div class="dos">
@@ -624,7 +857,7 @@ Ahora: "Mitosis"</pre>
 <section id="escuela">
   <div class="wrap">
     <div class="sec-head">
-      <span class="eyebrow">7 · En la escuela</span>
+      <span class="eyebrow">8 · En la escuela</span>
       <h2>Usa la IA para aprender, no para copiar</h2>
       <p class="lede">Un buen prompt también es un prompt honesto. La IA te sirve más como tutor que como alguien que te hace la tarea, y además así sí aprendes.</p>
     </div>
@@ -647,10 +880,41 @@ Ahora: "Mitosis"</pre>
   </div>
 </section>
 
+<section id="glosario">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">9 · Glosario</span>
+      <h2>Palabras clave de la IA</h2>
+      <p class="lede">Los términos que vas a escuchar cuando uses herramientas de IA, explicados en corto.</p>
+    </div>
+    <div class="field gl-search">
+      <label for="glSearch">Buscar un término</label>
+      <input type="text" id="glSearch" placeholder="Ej.: alucinación, token, contexto" autocomplete="off">
+    </div>
+    <dl class="gl-list" id="glList">
+      <div class="gl-item"><dt>Alucinación</dt><dd>Cuando la IA inventa datos, citas o fuentes que suenan reales pero son falsos. Por eso hay que verificar.</dd></div>
+      <div class="gl-item"><dt>Contexto</dt><dd>La información sobre tu situación que le das a la IA para que ajuste su respuesta: grado, materia, para qué lo necesitas.</dd></div>
+      <div class="gl-item"><dt>Delimitador</dt><dd>Marcas como comillas triples o etiquetas &lt;texto&gt; que separan las instrucciones del material que la IA debe trabajar.</dd></div>
+      <div class="gl-item"><dt>Few-shot</dt><dd>Técnica de incluir uno o más ejemplos del resultado que esperas, para que la IA siga ese estilo.</dd></div>
+      <div class="gl-item"><dt>IA generativa</dt><dd>Inteligencia artificial que crea contenido nuevo: texto, imágenes, audio o código.</dd></div>
+      <div class="gl-item"><dt>Iterar</dt><dd>Mejorar un prompt o una respuesta en varios intentos, con correcciones concretas.</dd></div>
+      <div class="gl-item"><dt>Modelo de lenguaje</dt><dd>El sistema de IA, entrenado con muchísimo texto, que genera las respuestas en un chat.</dd></div>
+      <div class="gl-item"><dt>Prompt</dt><dd>La instrucción o pregunta que le escribes a la IA.</dd></div>
+      <div class="gl-item"><dt>Prompt de imagen</dt><dd>La descripción de la imagen que quieres que la IA cree: sujeto, escena, estilo, composición, luz y formato.</dd></div>
+      <div class="gl-item"><dt>Razonamiento paso a paso</dt><dd>Pedirle a la IA que muestre su procedimiento antes de dar el resultado. Útil en matemáticas y lógica.</dd></div>
+      <div class="gl-item"><dt>Rol</dt><dd>La perspectiva o experiencia desde la que le pides a la IA que conteste, como «tutor de Historia».</dd></div>
+      <div class="gl-item"><dt>Sesgo</dt><dd>Cuando la IA repite prejuicios o da una visión incompleta porque así venían los datos con los que aprendió.</dd></div>
+      <div class="gl-item"><dt>Token</dt><dd>Un pedacito de texto (una palabra o parte de ella) que la IA procesa. Los límites de extensión se miden en tokens.</dd></div>
+      <div class="gl-item"><dt>Ventana de contexto</dt><dd>La cantidad de texto que la IA puede tener en cuenta al mismo tiempo en una conversación.</dd></div>
+    </dl>
+    <p class="gl-empty" id="glEmpty" hidden>No encontré ese término. Prueba con otra palabra.</p>
+  </div>
+</section>
+
 <section id="practica">
   <div class="wrap">
     <div class="sec-head">
-      <span class="eyebrow">8 · Práctica</span>
+      <span class="eyebrow">10 · Práctica</span>
       <h2>Mejora estos prompts</h2>
       <p class="lede">Lee el prompt débil, escribe tu versión (en el evaluador o en tu herramienta favorita) y después compárala con la propuesta.</p>
     </div>
@@ -661,7 +925,7 @@ Ahora: "Mitosis"</pre>
 <section id="repaso" style="border-bottom:0">
   <div class="wrap">
     <div class="sec-head">
-      <span class="eyebrow">9 · Repaso</span>
+      <span class="eyebrow">11 · Repaso</span>
       <h2>Antes de darle Enviar</h2>
     </div>
     <div class="final">
@@ -683,11 +947,394 @@ Ahora: "Mitosis"</pre>
 <footer>
   <div class="wrap">
     <span>Promptéate · Guía de prompts para estudiantes · Made by Emir Wilson</span>
-    <span>Revisa siempre lo que genera la IA antes de usarlo.</span>
+    <span>Revisa siempre lo que genera la IA antes de usarlo. · <a href="https://wa.me/?text=Aprende%20a%20escribir%20prompts%20para%20la%20IA%20con%20Prompt%C3%A9ate%3A%20https%3A%2F%2Femirwe11-hue.github.io%2Fprompteate%2F" target="_blank" rel="noopener">Compartir por WhatsApp</a></span>
   </div>
 </footer>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<div class="lesson" id="lesson" role="dialog" aria-modal="true" aria-labelledby="lsTitle" hidden>
+  <div class="ls-row ls-top">
+    <button type="button" class="ls-close" id="lsClose" aria-label="Salir de la lección">×</button>
+    <div class="ls-bar" aria-hidden="true"><i id="lsBar"></i></div>
+    <span class="ls-count" id="lsCount">1/5</span>
+  </div>
+  <div class="ls-body" id="lsBody"></div>
+  <div class="ls-foot" id="lsFoot">
+    <div class="ls-row ls-foot-in">
+      <div class="ls-feedback" id="lsFeedback" aria-live="polite"></div>
+      <button type="button" class="btn primary big" id="lsBtn" disabled>Comprobar</button>
+    </div>
+  </div>
+</div>
+<canvas id="confetti" aria-hidden="true" hidden></canvas>
+
+<script>
+(function () {
+  var SITE = "https://emirwe11-hue.github.io/prompteate/";
+  var KEY = "prompteate-ruta-v1";
+  function $(id) { return document.getElementById(id); }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function norm(s) { return s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, ""); }
+  var toastEl = $("toast"), toastT;
+  function toast(msg) { toastEl.textContent = msg; toastEl.classList.add("show"); clearTimeout(toastT); toastT = setTimeout(function () { toastEl.classList.remove("show"); }, 2200); }
+
+  /* ---------- Progreso guardado ---------- */
+  var P = null;
+  try { P = JSON.parse(localStorage.getItem(KEY) || "null"); } catch (e) { P = null; }
+  if (!P || typeof P !== "object") P = {};
+  P.xp = +P.xp || 0; P.done = P.done && typeof P.done === "object" ? P.done : {}; P.muted = !!P.muted;
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(P)); } catch (e) {} }
+
+  /* ---------- Contenido de la ruta ---------- */
+  var VF = ["Verdadero", "Falso"];
+  var UNITS = [
+    { n: "Unidad 1", title: "Anatomía del prompt", desc: "Las seis piezas de una buena instrucción.", color: "--c-rol", lessons: [
+      { id: "l1", title: "Las 6 piezas", q: [
+        { t: "mc", q: "¿Cuál es la única pieza indispensable de un prompt?", o: ["La tarea", "El rol", "El ejemplo", "El tono"], a: 0, e: "Sin tarea la IA no sabe qué hacer. Las demás piezas mejoran la respuesta." },
+        { t: "mc", q: "¿Qué pieza del prompt es este fragmento?", quote: "Voy en 2.º de secundaria y tengo examen de fracciones el lunes.", o: ["Contexto", "Rol", "Formato", "Restricción"], a: 0, e: "Cuenta tu situación: grado, tema y fecha. Eso es contexto." },
+        { t: "mc", q: "¿Qué pieza del prompt es este fragmento?", quote: "Actúa como tutor de Química.", o: ["Rol", "Tarea", "Ejemplo", "Contexto"], a: 0, e: "Indica desde qué experiencia debe contestar la IA." },
+        { t: "mc", q: "¿Qué pieza del prompt es este fragmento?", quote: "Responde en una tabla de tres columnas.", o: ["Formato", "Rol", "Contexto", "Ejemplo"], a: 0, e: "Define cómo debe verse la respuesta." },
+        { t: "mc", q: "¿Para qué sirve incluir un ejemplo en tu prompt?", o: ["Para mostrar el estilo o la estructura que esperas", "Para que la respuesta sea más larga", "Para que la IA busque en internet", "Para nada, la IA ya sabe lo que quieres"], a: 0, e: "Un ejemplo corto transmite el estilo más rápido que una explicación larga." }
+      ] },
+      { id: "l2", title: "Detecta lo que falta", q: [
+        { t: "mc", q: "¿Qué le falta a este prompt?", quote: "Explícame la fotosíntesis en 5 viñetas, con palabras sencillas.", o: ["Contexto: tu grado y para qué lo necesitas", "Una tarea", "Un formato", "La extensión"], a: 0, e: "Tiene tarea, formato y extensión, pero la IA no sabe en qué grado vas ni para qué lo usarás." },
+        { t: "mc", q: "¿Qué le falta a este prompt?", quote: "Actúa como maestro de Inglés. Voy en 1.º de prepa y tengo exposición el jueves.", o: ["La tarea", "El rol", "El contexto", "Nada, está completo"], a: 0, e: "Tiene rol y contexto, pero nunca dice qué debe hacer la IA." },
+        { t: "mc", q: "¿Cuál de estos prompts define un formato?", o: ["Resume la lectura en 5 viñetas de un renglón.", "Resume la lectura.", "Resume bien la lectura.", "Resume la lectura, por favor."], a: 0, e: "«5 viñetas de un renglón» dice exactamente cómo debe verse." },
+        { t: "mc", q: "«Hazlo mejor» es una instrucción clara.", o: VF, a: 1, e: "No dice qué significa «mejor»: ¿más corto?, ¿más sencillo?, ¿con ejemplos?" },
+        { t: "mc", q: "Tu prompt dice «Dame ideas para mi proyecto». ¿Qué agregarías primero?", o: ["La materia, tu grado y el tema del proyecto", "Un saludo amable", "Más signos de exclamación", "Que conteste rápido"], a: 0, e: "Con materia, grado y tema, las ideas se ajustan a lo que te pidieron." }
+      ] },
+      { id: "l3", title: "Arma el prompt", q: [
+        { t: "order", q: "Ordena las piezas: rol, contexto, tarea, formato y restricción.", p: ["Actúa como tutor de Historia.", "Tengo examen sobre la Revolución Mexicana.", "Explícame sus 3 causas principales", "en una tabla", "sin palabras complicadas."], e: "Primero quién contesta y tu situación; luego qué hacer, cómo se ve y qué evitar." },
+        { t: "order", q: "Ordena las piezas: rol, contexto, tarea, formato y extensión.", p: ["Eres un maestro de Física.", "Voy en 3.º de secundaria.", "Resuelve este problema paso a paso", "y explica cada paso", "en máximo 150 palabras."], e: "Así la IA sabe para quién explica antes de leer el problema." },
+        { t: "order", q: "Ordena las piezas: rol, contexto, tarea, formato y restricción.", p: ["Actúa como orientador vocacional.", "Me gustan las matemáticas y el dibujo.", "Sugiéreme 4 carreras", "en una lista con una razón para cada una.", "Solo carreras que existan en México."], e: "El contexto (tus gustos) es lo que hace que las sugerencias sean para ti." },
+        { t: "mc", q: "¿Por qué conviene empezar con el rol y el contexto?", o: ["Para que la IA entienda desde dónde y para qué contestar antes de leer la tarea", "Porque la IA solo lee la primera línea", "Porque es obligatorio", "Para que conteste más rápido"], a: 0, e: "No es obligatorio, pero ayuda a que la tarea se entienda con el enfoque correcto." },
+        { t: "mc", q: "El orden de las piezas importa más que incluirlas.", o: VF, a: 1, e: "Lo más importante es que estén. El orden solo ayuda a que el prompt se lea claro." }
+      ] }
+    ] },
+    { n: "Unidad 2", title: "Técnicas", desc: "Trucos que mejoran cualquier prompt.", color: "--c-tarea", lessons: [
+      { id: "l4", title: "Rol y ejemplos", q: [
+        { t: "mc", q: "¿Qué rol da mejores resultados para repasar Biología de secundaria?", o: ["Tutor de Biología para estudiantes de secundaria", "Experto", "Robot", "Científico famoso"], a: 0, e: "Un rol concreto ajusta el nivel y el vocabulario a lo que necesitas." },
+        { t: "mc", q: "¿Cómo se llama la técnica de dar uno a tres ejemplos del resultado esperado?", o: ["Few-shot", "Rol", "Delimitador", "Iterar"], a: 0, e: "Few-shot significa «pocos ejemplos»: muestras lo que quieres en lugar de solo describirlo." },
+        { t: "mc", q: "Con un buen ejemplo, la IA puede seguir el estilo y la estructura que necesitas.", o: VF, a: 0, e: "Los ejemplos son la forma más rápida de transmitir un estilo." },
+        { t: "mc", q: "Quieres tarjetas de estudio con el mismo formato. ¿Qué agregas a tu prompt?", o: ["Un ejemplo: «Mitosis → ¿Cómo se divide una célula en dos iguales?»", "La palabra «formato»", "«Hazlas bonitas»", "Nada, la IA adivina"], a: 0, e: "Con un ejemplo, todas las tarjetas salen con la misma estructura." },
+        { t: "mc", q: "¿Qué rol es más específico?", o: ["Maestra de Química de secundaria", "Experta", "Persona inteligente", "Alguien que sabe mucho"], a: 0, e: "Entre más concreto el rol, más útil la respuesta." }
+      ] },
+      { id: "l5", title: "Delimitadores y pasos", q: [
+        { t: "mc", q: "¿Para qué sirven los delimitadores como <apuntes> … </apuntes>?", o: ["Para separar las instrucciones del material que la IA debe trabajar", "Para que el texto se vea bonito", "Para que la IA conteste en inglés", "Para ocultar información"], a: 0, e: "Así la IA distingue qué es la orden y qué es el texto a resumir o analizar." },
+        { t: "mc", q: "¿Cuándo conviene pedir «resuélvelo paso a paso»?", o: ["En problemas de matemáticas, física o lógica", "Al pedir un saludo", "Nunca", "Solo en prompts de imágenes"], a: 0, e: "Ver el procedimiento reduce errores y te deja revisar cada paso." },
+        { t: "mc", q: "Para un trabajo grande, es mejor avanzar en varios prompts que pedir todo de un jalón.", o: VF, a: 0, e: "Primero el tema, luego el índice, después cada parte: así tienes más control." },
+        { t: "mc", q: "¿Qué logras con este prompt?", quote: "Antes de responder, hazme 5 preguntas para entender lo que necesito.", o: ["Que la IA te entreviste para obtener el contexto", "Que la IA conteste más corto", "Que la IA busque en internet", "Que la IA tenga menos faltas de ortografía"], a: 0, e: "Es útil cuando no sabes qué contexto dar." },
+        { t: "mc", q: "¿Cuál prompt usa bien los delimitadores?", o: ["Resume el texto entre <texto> y </texto> en 3 viñetas. <texto> … </texto>", "Resume esto bla bla bla y hazlo corto", "RESUME ESTO YA", "Resume (todo) [rápido]"], a: 0, e: "Las etiquetas marcan claramente dónde empieza y dónde termina el material." }
+      ] },
+      { id: "l6", title: "Mejora el prompt", q: [
+        { t: "mc", q: "¿Cuál es la mejor versión de «Hazme un resumen»?", o: ["Resume la lectura entre <lectura> en 5 viñetas para estudiar para mi examen de Literatura de 1.º de prepa.", "Hazme un buen resumen.", "Resume rápido.", "Resumen, porfa."], a: 0, e: "Tiene tarea, formato, delimitador y contexto." },
+        { t: "mc", q: "¿Qué cambio hace más útil «Explícame las ecuaciones»?", o: ["Decir qué tipo de ecuaciones, tu grado y qué parte no entiendes", "Escribirlo en mayúsculas", "Agregar «por favor» tres veces", "Pedirlo dos veces"], a: 0, e: "La IA necesita saber exactamente dónde te atoras." },
+        { t: "mc", q: "Si la primera respuesta no te sirve, puedes corregirla con instrucciones como «hazlo más corto».", o: VF, a: 0, e: "Iterar es parte del método: corrige con instrucciones concretas." },
+        { t: "mc", q: "La IA te dio una fecha histórica. ¿Qué haces?", o: ["La comparo con mi libro o una fuente confiable", "La copio tal cual", "Le pregunto a la IA si está segura y le creo", "La cambio por otra que me suene"], a: 0, e: "La IA puede inventar datos. Siempre verifica." },
+        { t: "mc", q: "¿Cuál es la mejor forma de pedir «No seas aburrido»?", o: ["Usa ejemplos de la vida diaria y frases cortas.", "No seas aburrido, en serio.", "Sé divertido.", "Nada de aburrido."], a: 0, e: "Describe lo que sí quieres en lugar de solo lo que no quieres." }
+      ] }
+    ] },
+    { n: "Unidad 3", title: "Prompts para imágenes", desc: "Describe lo que debe verse.", color: "--c-ej", lessons: [
+      { id: "l7", title: "Describe la imagen", q: [
+        { t: "mc", q: "¿Cuál es el sujeto de este prompt?", quote: "Un ajolote leyendo un libro en una biblioteca, estilo acuarela.", o: ["Un ajolote", "Una biblioteca", "Acuarela", "Un libro"], a: 0, e: "El sujeto es qué o quién aparece como protagonista." },
+        { t: "mc", q: "En ese mismo prompt, «estilo acuarela» indica…", o: ["El estilo visual", "El encuadre", "El formato", "La luz"], a: 0, e: "El estilo dice cómo se ve: fotografía, ilustración, acuarela, 3D…" },
+        { t: "mc", q: "¿Qué prompt dará una imagen más útil para un cartel?", o: ["Tres botes de colores en un patio escolar, ilustración plana, colores brillantes, formato vertical con espacio arriba para el título", "Haz una imagen de reciclaje", "Reciclaje bonito", "Una imagen chida de basura"], a: 0, e: "Describe sujeto, escena, estilo, color y formato." },
+        { t: "mc", q: "Pedir la proporción (vertical, horizontal o cuadrada) ayuda a que la imagen sirva para lo que la necesitas.", o: VF, a: 0, e: "Un cartel suele ser vertical; una diapositiva, horizontal." },
+        { t: "mc", q: "¿Cuál de estas palabras describe el encuadre?", o: ["Primer plano", "Acuarela", "Atardecer", "Alegre"], a: 0, e: "El encuadre o composición dice qué tan cerca y desde dónde se ve." }
+      ] },
+      { id: "l8", title: "Arma un prompt visual", q: [
+        { t: "order", q: "Ordena las piezas: sujeto, escena, estilo, color y formato.", p: ["Un colibrí", "tomando néctar de una flor de cempasúchil,", "ilustración estilo papel picado,", "colores naranja y rosa brillantes,", "formato cuadrado."], e: "Primero qué aparece, luego qué pasa, cómo se ve y al final el formato." },
+        { t: "order", q: "Ordena las piezas: sujeto, escena, estilo, luz y formato.", p: ["La Pirámide del Sol en Teotihuacán", "al amanecer, vista desde abajo,", "fotografía realista,", "luz cálida y suave,", "formato horizontal."], e: "El mismo orden sirve para casi cualquier prompt de imagen." },
+        { t: "mc", q: "Quieres una imagen para el cartel de tu exposición. ¿Qué no debe faltar?", o: ["Formato vertical y espacio libre para el título", "Muchas letras dentro de la imagen", "Colores al azar", "Nada, cualquier imagen sirve"], a: 0, e: "El texto agrégalo después en Canva o PowerPoint; la IA a veces escribe mal las letras." },
+        { t: "mc", q: "Las imágenes generadas por IA siempre muestran datos y textos correctos.", o: VF, a: 1, e: "A veces escriben letras mal o inventan detalles. Revísalas antes de usarlas." },
+        { t: "mc", q: "¿Cuál es la mejor versión de «un perro en el parque»?", o: ["Un xoloitzcuintle corriendo en un parque al atardecer, fotografía, primer plano", "Un perro bonito", "Un perro en el parque, en buena calidad", "Perro, parque, ya"], a: 0, e: "Agrega sujeto concreto, acción, luz, estilo y encuadre." }
+      ] }
+    ] },
+    { n: "Unidad 4", title: "Glosario y escuela", desc: "Palabras clave y uso honesto de la IA.", color: "--c-fmt", lessons: [
+      { id: "l9", title: "Palabras clave", q: [
+        { t: "mc", q: "¿Qué es una alucinación de la IA?", o: ["Cuando inventa datos o fuentes que suenan reales pero son falsos", "Cuando se tarda en contestar", "Cuando crea una imagen", "Cuando contesta en otro idioma"], a: 0, e: "Por eso siempre hay que verificar lo que dice la IA." },
+        { t: "mc", q: "Un token es…", o: ["Un pedacito de texto que la IA procesa", "Una contraseña para usar la IA", "Una moneda para pagar la IA", "Un tipo de imagen"], a: 0, e: "Puede ser una palabra o parte de una palabra." },
+        { t: "mc", q: "¿Qué es la ventana de contexto?", o: ["La cantidad de texto que la IA puede tener en cuenta a la vez", "La pantalla del chat", "El historial del navegador", "Una ventana emergente"], a: 0, e: "Si pegas textos muy largos, la IA puede no tomar en cuenta todo." },
+        { t: "mc", q: "«IA generativa» significa que…", o: ["Crea contenido nuevo: texto, imágenes, audio o código", "Solo busca información en internet", "Solo corrige ortografía", "Funciona sin computadora"], a: 0, e: "Genera contenido nuevo a partir de lo que le pides." },
+        { t: "mc", q: "Un sesgo en la IA es…", o: ["Cuando repite prejuicios o da una visión incompleta", "Un error de conexión", "Un tipo de prompt", "Un formato de respuesta"], a: 0, e: "Viene de los datos con los que aprendió. Compara con otras fuentes." }
+      ] },
+      { id: "l10", title: "IA honesta", q: [
+        { t: "mc", q: "Usar la IA para que te explique un tema que no entendiste es un buen uso.", o: VF, a: 0, e: "Usarla como tutor te ayuda a aprender." },
+        { t: "mc", q: "Entregar un ensayo hecho por la IA como si fuera tuyo está bien si nadie se da cuenta.", o: VF, a: 1, e: "Es deshonesto y además no aprendes. Usa la IA para ordenar ideas, no para que escriba por ti." },
+        { t: "mc", q: "¿Qué dato NO debes pegar en un prompt?", o: ["Tu CURP o tus contraseñas", "El tema de tu tarea", "Tu grado escolar", "El nombre de la materia"], a: 0, e: "Nunca compartas datos personales ni contraseñas." },
+        { t: "mc", q: "Tu maestro no permite usar IA en un trabajo. ¿Qué haces?", o: ["Respeto la regla y uso la IA solo cuando se permita", "La uso a escondidas", "Le pido a un amigo que la use por mí", "Cambio las palabras para que no se note"], a: 0, e: "Cada escuela y cada maestro deciden cuándo se vale usar IA." },
+        { t: "mc", q: "¿Cuál prompt te ayuda a aprender?", o: ["Ayúdame a armar un esquema para mi ensayo y dime qué investigar; no lo escribas por mí.", "Escríbeme el ensayo completo.", "Hazme la tarea.", "Dame las respuestas del examen."], a: 0, e: "Pedir guía en lugar de la respuesta final te hace aprender de verdad." }
+      ] }
+    ] },
+    { n: "Unidad 5", title: "Reto final", desc: "Demuestra todo lo que aprendiste.", color: "--c-ctx", lessons: [
+      { id: "l11", title: "Reto final", q: [
+        { t: "mc", q: "¿Qué pieza del prompt es este fragmento?", quote: "Sin usar tecnicismos.", o: ["Restricción", "Rol", "Contexto", "Ejemplo"], a: 0, e: "Marca un límite: algo que la IA debe evitar." },
+        { t: "order", q: "Ordena las piezas: rol, contexto, tarea, formato y restricción.", p: ["Actúa como tutor de Geografía.", "Voy en 1.º de secundaria y tengo examen el viernes.", "Explícame los climas de México", "en una tabla por región", "sin palabras complicadas."], e: "Rol y contexto primero; luego tarea, formato y límites." },
+        { t: "mc", q: "¿Cuál es el mejor prompt?", o: ["Voy en 2.º de secundaria. Explícame qué es un ecosistema con 3 ejemplos de México, en una lista corta y con palabras sencillas.", "Explícame los ecosistemas.", "Ecosistemas, rápido.", "Dime todo sobre los ecosistemas del mundo."], a: 0, e: "Tiene contexto, tarea, ejemplos pedidos, formato y tono." },
+        { t: "mc", q: "En un prompt de imagen, ¿qué describe este fragmento?", quote: "luz de atardecer", o: ["La iluminación", "El sujeto", "El formato", "El estilo"], a: 0, e: "La luz cambia mucho el ambiente de una imagen." },
+        { t: "mc", q: "Siempre debes revisar y verificar lo que genera la IA.", o: VF, a: 0, e: "La IA puede equivocarse o inventar datos." },
+        { t: "mc", q: "La respuesta de la IA es demasiado larga. ¿Qué le pides?", o: ["«Resúmelo en 5 renglones»", "«Hazlo mejor»", "«No»", "Empiezo otra conversación sin decir nada"], a: 0, e: "Una corrección concreta da mejores resultados que una vaga." }
+      ] }
+    ] }
+  ];
+  var LESSONS = [];
+  UNITS.forEach(function (u) { u.lessons.forEach(function (l) { l.unit = u; LESSONS.push(l); }); });
+
+  var LEVELS = [{ min: 0, name: "Aprendiz" }, { min: 30, name: "Explorador" }, { min: 70, name: "Constructor" }, { min: 115, name: "Estratega" }, { min: 160, name: "Maestro del prompt" }];
+  function levelOf(xp) { var i = 0; LEVELS.forEach(function (l, k) { if (xp >= l.min) i = k; }); return i; }
+
+  function svg(p) { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + p + '</svg>'; }
+  var ICONS = {
+    check: svg('<path d="M5 12.5l4.5 4.5L19 7.5"/>'),
+    lock: svg('<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>'),
+    star: svg('<path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/>'),
+    image: svg('<rect x="3.5" y="5" width="17" height="14" rx="2"/><circle cx="9" cy="10" r="1.8"/><path d="M4 17l5-4.5 4 3.5 3-2.5 4 3.5"/>'),
+    blocks: svg('<rect x="4" y="13" width="7" height="7" rx="1"/><rect x="13" y="13" width="7" height="7" rx="1"/><rect x="8.5" y="4" width="7" height="7" rx="1"/>'),
+    crown: svg('<path d="M4 18h16M5 15l-1-8 5 4 3-6 3 6 5-4-1 8z"/>')
+  };
+  function doneCount() { return LESSONS.filter(function (l) { return P.done[l.id]; }).length; }
+  function perfectCount() { return LESSONS.filter(function (l) { return P.done[l.id] && P.done[l.id].perfect; }).length; }
+  var BADGES = [
+    { id: "primer", name: "Primer paso", desc: "Completa tu primera lección.", icon: "star", test: function () { return doneCount() >= 1; } },
+    { id: "perfecto", name: "Sin errores", desc: "Termina una lección sin fallar.", icon: "check", test: function () { return perfectCount() >= 1; } },
+    { id: "visual", name: "Artista visual", desc: "Completa la unidad de imágenes.", icon: "image", test: function () { return UNITS[2].lessons.every(function (l) { return P.done[l.id]; }); } },
+    { id: "constructor", name: "Constructor", desc: "Llega al nivel 3.", icon: "blocks", test: function () { return levelOf(P.xp) >= 2; } },
+    { id: "maestro", name: "Maestro del prompt", desc: "Completa toda la ruta.", icon: "crown", test: function () { return doneCount() === LESSONS.length; } }
+  ];
+  function earned() { return BADGES.filter(function (b) { return b.test(); }).map(function (b) { return b.id; }); }
+
+  /* ---------- Mapa de la ruta ---------- */
+  var pathEl = $("path");
+  var OFF = [0, 56, 84, 56, 0, -56, -84, -56];
+  function renderPath() {
+    var html = "", k = 0, firstOpen = -1;
+    for (var x = 0; x < LESSONS.length; x++) { if (!P.done[LESSONS[x].id]) { firstOpen = x; break; } }
+    UNITS.forEach(function (u) {
+      html += '<div class="unit" style="--u:var(' + u.color + ')"><span class="eyebrow">' + u.n + '</span><h3>' + esc(u.title) + '</h3><p>' + esc(u.desc) + '</p></div><div class="lessons" style="--u:var(' + u.color + ')">';
+      u.lessons.forEach(function (l) {
+        var i = LESSONS.indexOf(l), d = P.done[l.id];
+        var locked = !d && i > 0 && !P.done[LESSONS[i - 1].id];
+        var cur = i === firstOpen;
+        var cls = d ? "done" : locked ? "locked" : "current";
+        var inner = d ? ICONS.check : locked ? ICONS.lock : '<span class="num">' + (i + 1) + '</span>';
+        var sub = d ? (d.perfect ? "Sin errores" : "Completada") + " · repetir" : locked ? "Bloqueada" : "+10 XP";
+        html += '<div class="node-wrap" style="--off:' + OFF[k % OFF.length] + '">' +
+          (cur ? '<span class="start-tag">' + (i === 0 ? "Empieza aquí" : "Sigue aquí") + '</span>' : '') +
+          '<button type="button" class="node ' + cls + '" data-i="' + i + '"' + (locked ? ' disabled' : '') + ' aria-label="Lección ' + (i + 1) + ': ' + esc(l.title) + '. ' + sub + '">' + inner + '</button>' +
+          '<span class="node-label">' + esc(l.title) + '<small>' + sub + '</small></span></div>';
+        k++;
+      });
+      html += '</div>';
+    });
+    pathEl.innerHTML = html;
+  }
+  pathEl.addEventListener("click", function (ev) { var b = ev.target.closest(".node"); if (!b || b.disabled) return; openLesson(+b.dataset.i); });
+
+  function renderStats() {
+    var li = levelOf(P.xp), lv = LEVELS[li], nx = LEVELS[li + 1];
+    $("lvlNum").textContent = "Nivel " + (li + 1) + " de " + LEVELS.length;
+    $("lvlName").textContent = lv.name;
+    $("xpTotal").textContent = P.xp;
+    $("lvlBar").style.width = (nx ? Math.round((P.xp - lv.min) / (nx.min - lv.min) * 100) : 100) + "%";
+    $("xpNext").textContent = nx ? "faltan " + (nx.min - P.xp) + " XP para " + nx.name : "nivel máximo";
+    $("doneCount").textContent = doneCount() + "/" + LESSONS.length;
+    $("perfectCount").textContent = perfectCount();
+    var got = earned();
+    $("badgeCount").textContent = got.length + "/" + BADGES.length;
+    $("badges").innerHTML = BADGES.map(function (b) {
+      var on = got.indexOf(b.id) > -1;
+      return '<li class="' + (on ? "" : "locked") + '"><span class="badge-ico">' + ICONS[b.icon] + '</span><span><b>' + b.name + '</b><span>' + (on ? "Obtenida" : b.desc) + '</span></span></li>';
+    }).join("");
+    $("btnMute").textContent = P.muted ? "Sonido: apagado" : "Sonido: encendido";
+    $("btnMute").setAttribute("aria-pressed", String(!P.muted));
+  }
+
+  /* ---------- Sonidos ---------- */
+  var AC = null;
+  function tone(f, at, dur, type, vol) {
+    var t = AC.currentTime + at, o = AC.createOscillator(), g = AC.createGain();
+    o.type = type; o.frequency.setValueAtTime(f, t);
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g); g.connect(AC.destination); o.start(t); o.stop(t + dur + 0.05);
+  }
+  function play(kind) {
+    if (P.muted) return;
+    try {
+      AC = AC || new (window.AudioContext || window.webkitAudioContext)();
+      if (AC.state === "suspended") AC.resume();
+      if (kind === "ok") { tone(660, 0, 0.12, "triangle", 0.18); tone(990, 0.1, 0.2, "triangle", 0.18); }
+      else if (kind === "bad") { tone(220, 0, 0.16, "sawtooth", 0.06); tone(165, 0.13, 0.24, "sawtooth", 0.06); }
+      else if (kind === "win") { [523, 659, 784, 1047].forEach(function (f, i) { tone(f, i * 0.11, 0.24, "triangle", 0.16); }); }
+      else if (kind === "tap") { tone(520, 0, 0.05, "sine", 0.05); }
+    } catch (e) {}
+  }
+
+  /* ---------- Confeti ---------- */
+  var cv = $("confetti"), cx = cv.getContext ? cv.getContext("2d") : null, raf = 0;
+  function confetti() {
+    if (!cx || (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches)) return;
+    var cs = getComputedStyle(document.documentElement);
+    var cols = ["--c-rol", "--c-ctx", "--c-tarea", "--c-fmt", "--c-restr", "--c-ej"].map(function (v) { return cs.getPropertyValue(v).trim() || "#2346d6"; });
+    var dpr = window.devicePixelRatio || 1, W = window.innerWidth, H = window.innerHeight;
+    cv.hidden = false; cv.width = W * dpr; cv.height = H * dpr; cx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var ps = [];
+    for (var i = 0; i < 150; i++) ps.push({ x: W / 2 + (Math.random() - 0.5) * W * 0.4, y: H * 0.38, vx: (Math.random() - 0.5) * 13, vy: -Math.random() * 13 - 4, r: Math.random() * 6 + 5, a: Math.random() * 6.28, va: (Math.random() - 0.5) * 0.3, c: cols[i % cols.length] });
+    var t0 = performance.now(); cancelAnimationFrame(raf);
+    function frame(t) {
+      var el = t - t0; cx.clearRect(0, 0, W, H);
+      ps.forEach(function (p) {
+        p.vy += 0.35; p.vx *= 0.99; p.x += p.vx; p.y += p.vy; p.a += p.va;
+        cx.save(); cx.translate(p.x, p.y); cx.rotate(p.a); cx.globalAlpha = Math.max(0, 1 - el / 2600); cx.fillStyle = p.c; cx.fillRect(-p.r / 2, -p.r / 4, p.r, p.r / 2); cx.restore();
+      });
+      if (el < 2600) raf = requestAnimationFrame(frame); else { cx.clearRect(0, 0, W, H); cv.hidden = true; }
+    }
+    raf = requestAnimationFrame(frame);
+  }
+
+  /* ---------- Lecciones ---------- */
+  var lessonEl = $("lesson"), bodyEl = $("lsBody"), footEl = $("lsFoot"), fbEl = $("lsFeedback"), btn = $("lsBtn"), barEl = $("lsBar"), countEl = $("lsCount");
+  var S = null;
+  function shuffle(a) { a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function shuffleDiff(n) { var idx = [], s; for (var i = 0; i < n; i++) idx.push(i); do { s = shuffle(idx); } while (s.every(function (v, k) { return v === k; })); return s; }
+
+  function openLesson(i) {
+    S = { i: i, l: LESSONS[i], idx: 0, wrong: 0, right: 0, phase: "answer", sel: null };
+    lessonEl.hidden = false; document.body.style.overflow = "hidden"; document.body.classList.add("in-lesson");
+    renderQ();
+  }
+  function closeLesson() {
+    var i = S ? S.i : 0;
+    lessonEl.hidden = true; document.body.style.overflow = ""; document.body.classList.remove("in-lesson"); S = null;
+    renderPath(); renderStats();
+    var n = pathEl.querySelector('.node[data-i="' + i + '"]'); if (n) { try { n.focus({ preventScroll: true }); } catch (e) {} }
+  }
+  function renderQ() {
+    var q = S.l.q[S.idx], n = S.l.q.length;
+    S.phase = "answer"; S.sel = null;
+    footEl.className = "ls-foot"; fbEl.innerHTML = ""; btn.textContent = "Comprobar"; btn.disabled = true;
+    barEl.style.width = (S.idx / n * 100) + "%"; countEl.textContent = (S.idx + 1) + "/" + n;
+    var h = '<div class="ls-row ls-inner"><span class="eyebrow">' + esc(S.l.unit.n + " · " + S.l.title) + '</span>';
+    h += '<h2 class="ls-q" id="lsTitle" tabindex="-1">' + esc(q.q) + '</h2>';
+    if (q.quote) h += '<div class="ls-quote">' + esc(q.quote) + '</div>';
+    if (q.t === "mc") {
+      var tf = q.o === VF;
+      var order = tf ? [0, 1] : shuffle(q.o.map(function (_, k) { return k; }));
+      h += '<div class="opts' + (tf ? " tf" : "") + '" role="radiogroup" aria-labelledby="lsTitle">';
+      order.forEach(function (k, pos) { h += '<button type="button" class="opt" role="radio" aria-checked="false" data-k="' + k + '"><span class="key">' + (pos + 1) + '</span><span>' + esc(q.o[k]) + '</span></button>'; });
+      h += '</div>';
+    } else {
+      S.bank = shuffleDiff(q.p.length); S.ans = [];
+      h += '<div class="answer-zone" id="ansZone" data-empty="Toca las piezas en el orden correcto"></div><div class="bank" id="bankZone"></div>';
+    }
+    h += '</div>';
+    bodyEl.innerHTML = h; bodyEl.scrollTop = 0;
+    if (q.t === "order") renderTiles();
+    try { $("lsTitle").focus({ preventScroll: true }); } catch (e) {}
+  }
+  function renderTiles() {
+    var q = S.l.q[S.idx];
+    function tile(k, from) { return '<button type="button" class="tile" data-k="' + k + '" data-from="' + from + '">' + esc(q.p[k]) + '</button>'; }
+    $("ansZone").innerHTML = S.ans.map(function (k) { return tile(k, "ans"); }).join("");
+    $("bankZone").innerHTML = S.bank.map(function (k) { return tile(k, "bank"); }).join("");
+    btn.disabled = S.ans.length !== q.p.length;
+  }
+  bodyEl.addEventListener("click", function (ev) {
+    if (!S) return;
+    var act = ev.target.closest("[data-act]");
+    if (act && act.dataset.act === "repeat") { openLesson(S.i); return; }
+    if (S.phase !== "answer") return;
+    var o = ev.target.closest(".opt"), t = ev.target.closest(".tile");
+    if (o) {
+      bodyEl.querySelectorAll(".opt").forEach(function (x) { x.setAttribute("aria-checked", String(x === o)); });
+      S.sel = +o.dataset.k; btn.disabled = false; play("tap");
+    } else if (t) {
+      var k = +t.dataset.k;
+      if (t.dataset.from === "bank") { S.bank.splice(S.bank.indexOf(k), 1); S.ans.push(k); }
+      else { S.ans.splice(S.ans.indexOf(k), 1); S.bank.push(k); }
+      play("tap"); renderTiles();
+    }
+  });
+  function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
+  function check() {
+    var q = S.l.q[S.idx], ok;
+    if (q.t === "mc") {
+      ok = S.sel === q.a;
+      bodyEl.querySelectorAll(".opt").forEach(function (x) { var k = +x.dataset.k; x.disabled = true; if (k === q.a) x.classList.add("right"); else if (k === S.sel) x.classList.add("wrong"); });
+    } else {
+      ok = S.ans.every(function (v, k) { return v === k; });
+      $("ansZone").classList.add(ok ? "right" : "wrong");
+      bodyEl.querySelectorAll(".tile").forEach(function (x) { x.disabled = true; });
+    }
+    if (ok) S.right++; else S.wrong++;
+    S.phase = "feedback";
+    footEl.className = "ls-foot " + (ok ? "ok" : "bad");
+    var sol = (!ok && q.t === "order") ? '<span class="sol">Orden correcto: ' + esc(q.p.join(" ")) + '</span>' : "";
+    fbEl.innerHTML = '<b>' + (ok ? pick(["¡Correcto!", "¡Muy bien!", "¡Exacto!", "¡Así se hace!"]) : "Casi. Revisa esto:") + '</b>' + sol + '<span>' + esc(q.e) + '</span>';
+    btn.textContent = S.idx === S.l.q.length - 1 ? "Ver resultados" : "Continuar";
+    btn.disabled = false; btn.focus();
+    play(ok ? "ok" : "bad");
+  }
+  function finish() {
+    var l = S.l, n = l.q.length, perfect = S.wrong === 0, prev = P.done[l.id];
+    var lvBefore = levelOf(P.xp), badgesBefore = earned();
+    var gain = prev ? 5 : 10 + (perfect ? 5 : 0);
+    P.xp += gain;
+    P.done[l.id] = { perfect: !!((prev && prev.perfect) || perfect) };
+    save();
+    var lvAfter = levelOf(P.xp), newB = earned().filter(function (id) { return badgesBefore.indexOf(id) < 0; });
+    S.phase = "done";
+    barEl.style.width = "100%"; countEl.textContent = n + "/" + n;
+    footEl.className = "ls-foot"; fbEl.innerHTML = ""; btn.textContent = "Continuar la ruta"; btn.disabled = false;
+    var msg = "¡Terminé la lección «" + l.title + "» en Promptéate y ya tengo " + P.xp + " XP! Aprende a escribir prompts para la IA: " + SITE;
+    var h = '<div class="ls-row ls-inner result"><span class="eyebrow">' + esc(l.unit.n + " · " + l.title) + '</span>';
+    h += '<h2 class="ls-q" id="lsTitle" tabindex="-1">' + (perfect ? "¡Lección perfecta!" : "¡Lección completada!") + '</h2>';
+    h += '<div class="res-tiles"><div><b>+' + gain + '</b><span>XP ganada</span></div><div><b>' + S.right + "/" + n + '</b><span>aciertos</span></div><div><b>' + P.xp + '</b><span>XP total</span></div></div>';
+    if (prev) h += '<p class="note">Repetir una lección da 5 XP de práctica.</p>';
+    else if (!perfect) h += '<p class="note">Termina una lección sin errores para ganar 5 XP extra.</p>';
+    if (lvAfter > lvBefore) h += '<div class="levelup">Subiste al nivel ' + (lvAfter + 1) + ': ' + LEVELS[lvAfter].name + '</div>';
+    if (newB.length) h += '<div class="new-badges">' + newB.map(function (id) { var b = BADGES.filter(function (x) { return x.id === id; })[0]; return '<span>' + ICONS[b.icon] + 'Nueva insignia: ' + b.name + '</span>'; }).join("") + '</div>';
+    h += '<div class="cta-row" style="justify-content:center"><a class="btn" href="https://wa.me/?text=' + encodeURIComponent(msg) + '" target="_blank" rel="noopener">Compartir por WhatsApp</a><button type="button" class="btn" data-act="repeat">Repetir lección</button></div></div>';
+    bodyEl.innerHTML = h; bodyEl.scrollTop = 0;
+    try { $("lsTitle").focus({ preventScroll: true }); } catch (e) {}
+    play("win"); confetti();
+  }
+  btn.addEventListener("click", function () {
+    if (!S) return;
+    if (S.phase === "answer") check();
+    else if (S.phase === "feedback") { S.idx++; if (S.idx >= S.l.q.length) finish(); else renderQ(); }
+    else closeLesson();
+  });
+  $("lsClose").addEventListener("click", closeLesson);
+  document.addEventListener("keydown", function (ev) {
+    if (lessonEl.hidden || !S) return;
+    if (ev.key === "Escape") { closeLesson(); return; }
+    if (S.phase === "answer" && /^[1-9]$/.test(ev.key)) { var o = bodyEl.querySelectorAll(".opt")[+ev.key - 1]; if (o) { ev.preventDefault(); o.click(); } return; }
+    if (ev.key === "Enter" && !btn.disabled && !(ev.target.closest && ev.target.closest("button, a, input, textarea"))) { ev.preventDefault(); btn.click(); }
+  });
+
+  /* ---------- Controles ---------- */
+  $("btnMute").addEventListener("click", function () { P.muted = !P.muted; save(); renderStats(); if (!P.muted) play("tap"); });
+  $("btnReset").addEventListener("click", function () { $("resetConfirm").hidden = false; $("resetNo").focus(); });
+  $("resetNo").addEventListener("click", function () { $("resetConfirm").hidden = true; });
+  $("resetYes").addEventListener("click", function () { P = { xp: 0, done: {}, muted: P.muted }; save(); $("resetConfirm").hidden = true; renderPath(); renderStats(); toast("Progreso reiniciado"); });
+
+  $("btnCopyLink").addEventListener("click", function () {
+    function fail() { toast("Copia este enlace: " + SITE); }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(SITE).then(function () { toast("Enlace copiado"); }, fail); else fail();
+  });
+
+  /* ---------- Glosario ---------- */
+  var gl = $("glSearch");
+  gl.addEventListener("input", function () {
+    var t = norm(gl.value.trim()), any = false;
+    document.querySelectorAll("#glList .gl-item").forEach(function (it) { var show = !t || norm(it.textContent).indexOf(t) > -1; it.hidden = !show; if (show) any = true; });
+    $("glEmpty").hidden = any;
+  });
+
+  renderPath(); renderStats();
+})();
+</script>
 
 <script>
 (function () {
